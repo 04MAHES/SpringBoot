@@ -72,17 +72,4 @@ Since there is no frontend, the API is the primary interface. Below are the avai
 | `POST` | `/companies/{companyId}/reviews` | Add a review for a company |
 | `GET` | `/reviews/{reviewId}` | Get a specific review |
 
----
 
-## 📸 API Response Examples
-
-Below are examples of how the API responds, verifying the backend logic.
-
-**1. Create a Company (POST)**
-```json
-// POST /companies
-{
-    "name": "TechCorp",
-    "description": "Leading Tech Giant",
-    "jobs": []
-}
