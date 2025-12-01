@@ -1,147 +1,68 @@
-# 🧾 Job Application – Spring Boot Project
+# 🚀 Job Board REST API (Spring Boot)
 
-A Spring Boot–based backend application for managing job postings, companies, and reviews.  
-This module demonstrates practical usage of **Spring Web**, **Spring Data JPA**, and **MySQL**.
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Build](https://img.shields.io/badge/Build-Maven-blue.svg)](https://maven.apache.org/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
----
+## 📖 Project Overview
 
-## 📌 Features
+This is a comprehensive **Backend RESTful API** designed to power a Job Board platform. It follows a "Headless" architecture, allowing any frontend client (React, Angular, Mobile) to consume its services. 
 
-- Create, update, delete job postings  
-- CRUD operations for companies  
-- REST API structure  
-- JPA/Hibernate ORM mapping  
-- Auto table creation  
-- Clean and modular folder structure  
+The project demonstrates a production-grade implementation of the **Controller-Service-Repository** pattern, handling complex relationships between Companies, Job Listings, and Reviews.
 
----
-
-## 🏗️ Project Structure
-
-Job_Application/
-├── src/
-│ ├── main/
-│ │ ├── java/
-│ │ │ └── com.jobapplication/
-│ │ │ ├── controller/
-│ │ │ ├── service/
-│ │ │ ├── repository/
-│ │ │ └── model/
-│ │ └── resources/
-│ │ ├── application.properties
-│ │ └── data.sql / schema.sql (optional)
-└── pom.xml
-
-yaml
-Copy code
+**Key Technical Highlights for Recruiters:**
+* **Layered Architecture:** Strict separation of concerns (Business Logic decoupled from HTTP layer).
+* **Relational Data Modeling:** Implementation of One-to-Many relationships using JPA/Hibernate.
+* **REST Standards:** Correct use of HTTP verbs, status codes, and resource naming conventions.
+* **DTO Pattern:** (Optional - *Enable this bullet if you used DTOs*) Separation of Entity models from API responses.
 
 ---
 
-## ⚙️ Prerequisites
+## 🛠️ Technology Stack
 
-Install the following:
-
-- Java 17+  
-- Maven  
-- MySQL  
-- IntelliJ IDEA / Eclipse / VS Code  
+| Category | Technology |
+| :--- | :--- |
+| **Core Framework** | Spring Boot 3.x |
+| **Language** | Java 17 |
+| **Database** | H2 (Dev) / MySQL (Prod) |
+| **ORM / Persistence** | Spring Data JPA (Hibernate) |
+| **API Testing** | Postman |
+| **Build Tool** | Maven |
 
 ---
 
-## 🚀 Running the Application
+## 🏛️ Architecture & Data Model
 
-### 1️⃣ Navigate to the project folder:
+The application handles three core domains with the following relationships:
 
-```bash
-cd Job_Application
-2️⃣ Configure database in application.properties:
-properties
-Copy code
-spring.datasource.url=jdbc:mysql://localhost:3306/jobdb
-spring.datasource.username=root
-spring.datasource.password=yourpassword
+1.  **Company**: The parent entity.
+2.  **Job**: Belongs to a specific Company (**Many-to-One**).
+3.  **Review**: Belongs to a specific Company (**Many-to-One**).
 
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-3️⃣ Run using Maven:
-bash
-Copy code
-mvn spring-boot:run
-Server starts at:
+> **Logic:** If a Company is deleted, all associated Jobs and Reviews are handled via cascading rules to maintain data integrity.
 
-👉 http://localhost:8080
 
-🛠️ API Endpoints
-Job APIs
-Method	Endpoint	Description
-GET	/jobs	Get all jobs
-GET	/jobs/{id}	Get job by ID
-POST	/jobs	Create job
-PUT	/jobs/{id}	Update job
-DELETE	/jobs/{id}	Delete job
-
-Company APIs
-Method	Endpoint	Description
-GET	/companies	Get all companies
-GET	/companies/{id}	Get company by ID
-POST	/companies	Create company
-PUT	/companies/{id}	Update company
-DELETE	/companies/{id}	Delete company
-
-🗄️ Entities Overview
-Job Entity
-jobId
-
-title
-
-description
-
-salary
-
-location
-
-company (Many-To-One)
-
-Company Entity
-companyId
-
-name
-
-location
-
-rating
-
-jobs (One-To-Many)
-
-Review Entity (optional)
-reviewId
-
-message
-
-rating
-
-company (Many-To-One)
-
-🧩 Tech Stack
-Spring Boot
-
-Spring Web
-
-Spring Data JPA
-
-Hibernate
-
-MySQL
-
-Maven
-
-📝 Future Enhancements
-Add JWT Authentication
-
-Add Swagger Documentation
-
-Add search & filter for jobs
-
-Global Exception Handling
-
-Add unit tests
+🔌 API DocumentationSince there is no frontend, the API is the primary interface. Below are the available endpoints.🏢 Company ControllerMethodEndpointDescriptionGET/companiesFetch all registered companiesGET/companies/{id}Fetch a specific company detailsPOST/companiesRegister a new companyPUT/companies/{id}Update company profileDELETE/companies/{id}Delete a company (and its jobs/reviews)💼 Job ControllerMethodEndpointDescriptionGET/jobsList all available jobsGET/jobs/{id}Get job description by IDPOST/jobsCreate a new job listing (linked to Company)DELETE/jobs/{id}Remove a job listing⭐ Review ControllerMethodEndpointDescriptionGET/companies/{companyId}/reviewsGet all reviews for a specific companyPOST/companies/{companyId}/reviewsAdd a review for a companyGET/reviews/{reviewId}Get a specific review📸 API Response Examples (Postman)(Screenshots of API responses verify the backend works)1. Create a Company (POST)JSON// POST /companies
+{
+    "name": "TechCorp",
+    "description": "Leading Tech Giant",
+    "jobs": []
+}
+2. Get Job Details (GET)JSON// GET /jobs/1
+{
+    "id": 1,
+    "title": "Software Engineer",
+    "description": "Develop high quality code",
+    "minSalary": "60000",
+    "maxSalary": "120000",
+    "location": "New York",
+    "company": {
+        "name": "TechCorp"
+    }
+}
+⚙️ How to Run LocallyClone the RepoBashgit clone [https://github.com/04MAHES/SpringBoot.git](https://github.com/04MAHES/SpringBoot.git)
+cd SpringBoot
+Build with MavenBashmvn clean install
+Run the AppBashmvn spring-boot:run
+Test the EndpointsOpen Postman or your browser.Go to http://localhost:8080/jobs to see the initial data.🚀 Future Enhancements[ ] Security: Implement JWT (JSON Web Tokens) for secure authentication.[ ] Containerization: Add Dockerfile and Docker Compose support.[ ] Frontend: Build a React.js dashboard to consume these APIs.[ ] Pagination: Add paging to the /jobs endpoint for better performance.
