@@ -1,9 +1,9 @@
 # 🚀 Job Board REST API (Spring Boot)
 
-[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Build](https://img.shields.io/badge/Build-Maven-blue.svg)](https://maven.apache.org/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+![Java](https://img.shields.io/badge/Java-17-orange.svg)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-brightgreen.svg)
+![Build](https://img.shields.io/badge/Build-Maven-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 ## 📖 Project Overview
 
@@ -15,7 +15,7 @@ The project demonstrates a production-grade implementation of the **Controller-S
 * **Layered Architecture:** Strict separation of concerns (Business Logic decoupled from HTTP layer).
 * **Relational Data Modeling:** Implementation of One-to-Many relationships using JPA/Hibernate.
 * **REST Standards:** Correct use of HTTP verbs, status codes, and resource naming conventions.
-* **DTO Pattern:** (Optional - *Enable this bullet if you used DTOs*) Separation of Entity models from API responses.
+* **DTO Pattern:** Separation of Entity models from API responses for cleaner data transfer.
 
 ---
 
@@ -42,27 +42,47 @@ The application handles three core domains with the following relationships:
 
 > **Logic:** If a Company is deleted, all associated Jobs and Reviews are handled via cascading rules to maintain data integrity.
 
+---
 
-🔌 API DocumentationSince there is no frontend, the API is the primary interface. Below are the available endpoints.🏢 Company ControllerMethodEndpointDescriptionGET/companiesFetch all registered companiesGET/companies/{id}Fetch a specific company detailsPOST/companiesRegister a new companyPUT/companies/{id}Update company profileDELETE/companies/{id}Delete a company (and its jobs/reviews)💼 Job ControllerMethodEndpointDescriptionGET/jobsList all available jobsGET/jobs/{id}Get job description by IDPOST/jobsCreate a new job listing (linked to Company)DELETE/jobs/{id}Remove a job listing⭐ Review ControllerMethodEndpointDescriptionGET/companies/{companyId}/reviewsGet all reviews for a specific companyPOST/companies/{companyId}/reviewsAdd a review for a companyGET/reviews/{reviewId}Get a specific review📸 API Response Examples (Postman)(Screenshots of API responses verify the backend works)1. Create a Company (POST)JSON// POST /companies
+## 🔌 API Documentation
+
+Since there is no frontend, the API is the primary interface. Below are the available endpoints.
+
+### 🏢 Company Controller
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/companies` | Fetch all registered companies |
+| `GET` | `/companies/{id}` | Fetch a specific company details |
+| `POST` | `/companies` | Register a new company |
+| `PUT` | `/companies/{id}` | Update company profile |
+| `DELETE` | `/companies/{id}` | Delete a company (and its jobs/reviews) |
+
+### 💼 Job Controller
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/jobs` | List all available jobs |
+| `GET` | `/jobs/{id}` | Get job description by ID |
+| `POST` | `/jobs` | Create a new job listing (linked to Company) |
+| `DELETE` | `/jobs/{id}` | Remove a job listing |
+
+### ⭐ Review Controller
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/companies/{companyId}/reviews` | Get all reviews for a specific company |
+| `POST` | `/companies/{companyId}/reviews` | Add a review for a company |
+| `GET` | `/reviews/{reviewId}` | Get a specific review |
+
+---
+
+## 📸 API Response Examples
+
+Below are examples of how the API responds, verifying the backend logic.
+
+**1. Create a Company (POST)**
+```json
+// POST /companies
 {
     "name": "TechCorp",
     "description": "Leading Tech Giant",
     "jobs": []
 }
-2. Get Job Details (GET)JSON// GET /jobs/1
-{
-    "id": 1,
-    "title": "Software Engineer",
-    "description": "Develop high quality code",
-    "minSalary": "60000",
-    "maxSalary": "120000",
-    "location": "New York",
-    "company": {
-        "name": "TechCorp"
-    }
-}
-⚙️ How to Run LocallyClone the RepoBashgit clone [https://github.com/04MAHES/SpringBoot.git](https://github.com/04MAHES/SpringBoot.git)
-cd SpringBoot
-Build with MavenBashmvn clean install
-Run the AppBashmvn spring-boot:run
-Test the EndpointsOpen Postman or your browser.Go to http://localhost:8080/jobs to see the initial data.🚀 Future Enhancements[ ] Security: Implement JWT (JSON Web Tokens) for secure authentication.[ ] Containerization: Add Dockerfile and Docker Compose support.[ ] Frontend: Build a React.js dashboard to consume these APIs.[ ] Pagination: Add paging to the /jobs endpoint for better performance.
